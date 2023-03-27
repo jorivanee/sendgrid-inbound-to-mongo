@@ -8,7 +8,8 @@ with open('config.json') as config_file:
 
 
 app = Flask(__name__)
-app.db_client = MongoClient(config['mongo']['host'], config['mongo']['port'])
+app.db_client = MongoClient(
+    config['mongo']['host'], config['mongo']['port'], connect=False)
 app.database = app.db_client[config['mongo']['database']]
 
 

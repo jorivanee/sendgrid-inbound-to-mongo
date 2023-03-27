@@ -25,7 +25,39 @@ Small web server to send all messages from a Sendgrid inbound parse webhook to a
 
 # Step 5 - Setting up the Flask Application
 13. `pip install -r requirements.txt`
-14. `cp config.example.json config.json`
-15. `nano config.json`
+14. `deactivate`
+15. `cp config.example.json config.json`
+16. `sudo nano config.json`
 
 # Step 6 - Setting up uWSGI
+16. `sudo nano /etc/systemd/system/application.service`
+17. Add the following lines:
+>[Unit]
+>Description=uWSGI instance to serve Webhook
+>After=network.target
+>
+>[Service]
+>User=<your username>
+>Group=www-data
+>WorkingDirectory=/home/<your username>/webhook
+>Environment="PATH=/home/<your username>/webhook/prod/bin"
+>ExecStart=/home/<your username>/webhook/prod/bin/uwsgi --ini application.ini
+>
+>[Install]
+>WantedBy=multi-user.target
+18. `sudo systemctl start application`
+19. `sudo systemctl enable application`
+
+# Step 7 - Setting up NGINX
+20. `sudo apt install nginx`
+21. `sudo nano /etc/nginx/sites-available/webhook`
+22. Add the following lines:
+>server {
+>    listen 80;
+>
+>    location / {
+>        include uwsgi_params;
+>        uwsgi_pass unix:/home/<your username>/webhook/application.sock;
+>    }
+>}
+23. `sudo ln /etc/nginx/sites-available/webhook /etc/nginx/sites-enabled/webhook
