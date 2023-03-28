@@ -32,7 +32,7 @@ def store_email():
              "sender_ip": raw_email['sender_ip'], "from": raw_email['from'], "envelope": json.loads(raw_email['envelope'])}
     for e in ['text', 'html']:
         if e in raw_email:
-            entry[e] = raw_email(e)
+            entry[e] = raw_email[e]
     app.database.emails.insert_one(entry)
     return jsonify({"success": True}), 202
 
