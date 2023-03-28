@@ -32,7 +32,7 @@ Small web server to send all messages from a Sendgrid inbound parse webhook to a
 # Step 6 - Setting up uWSGI
 16. `sudo nano /etc/systemd/system/application.service`
 17. Add the following lines:
-```
+```apache
 [Unit]
 Description=uWSGI instance to serve Webhook
 After=network.target
@@ -54,7 +54,7 @@ WantedBy=multi-user.target
 20. `sudo apt install nginx`
 21. `sudo nano /etc/nginx/sites-available/webhook`
 22. Add the following lines:
-```
+```nginx
 server {
     listen 80;
 
