@@ -60,4 +60,8 @@ Small web server to send all messages from a Sendgrid inbound parse webhook to a
 >        uwsgi_pass unix:/home/<your username>/webhook/application.sock;
 >    }
 >}
-23. `sudo ln /etc/nginx/sites-available/webhook /etc/nginx/sites-enabled/webhook
+23. `sudo ln /etc/nginx/sites-available/webhook /etc/nginx/sites-enabled/webhook`
+24. `sudo nginx -t`
+If the above command gives an output saying the configuration test is successful, proceed
+25. `sudo service nginx restart`
+26. `curl http://127.0.0.1` to verify if the installation worked
