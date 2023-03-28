@@ -14,7 +14,7 @@ app.database = app.db_client[config['mongo']['database']]
 
 
 @app.errorhandler(werkzeug.exceptions.NotFound)
-def handle_error(e):
+def handle_error(_):
     return jsonify({"error": True, "message": "Not Found", "code": 404}), 404
 
 
