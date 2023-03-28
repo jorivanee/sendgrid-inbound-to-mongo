@@ -28,9 +28,8 @@ def store_email():
     raw_email = request.form.to_dict()
     headers = {k: v.strip() for k, v in [line.split(
         ":", 1) for line in raw_email['headers'].splitlines() if ":" in line]}
-    entry = {"headers": headers, "subject": raw_email['subject'], "to": raw_email['to'],
-             "sender_ip": raw_email['sender_ip'], "from": raw_email['from'], "envelope": json.loads(raw_email['envelope'])}
-    for e in ['text', 'html']:
+    entry = {"headers": headers, "envelope": json.loads(raw_email['envelope'])}
+    for e in ['text', 'html', 'subject', 'to', 'sender_ip', 'from']:
         if e in raw_email:
             entry[e] = raw_email[e]
     app.database.emails.insert_one(entry)
