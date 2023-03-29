@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import json
 from pymongo import MongoClient
 import werkzeug
+import time
 
 with open('config.json') as config_file:
     config = json.load(config_file)
@@ -32,6 +33,7 @@ def store_email():
     for e in ['text', 'html', 'subject', 'to', 'sender_ip', 'from']:
         if e in raw_email:
             entry[e] = raw_email[e]
+    entry['timestamp'] = int(time.time())
     app.database.emails.insert_one(entry)
     return jsonify({"success": True}), 202
 
